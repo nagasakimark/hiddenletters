@@ -57,8 +57,47 @@
     }
     if (out) { c.strokeStyle = out; c.lineWidth = ow; c.strokeText(str, x, y); }
     c.fillStyle = fill; c.fillText(str, x, y);
+    if (o.solid && out) { const m = holeMask(str, size, ow, o, out); if (m) c.drawImage(m.cv, x - m.ox, y - m.oy, m.cv.width / m.k, m.cv.height / m.k); }
     c.restore();
   }
+  /* Small gaps inside a letter's outline (e.g. the counter of a "d") show the background through. holeMask finds
+     every enclosed see-through pixel of outline+fill and returns a canvas that paints them in the outline colour. */
+  const holeCache = {};
+  function holeMask(str, size, ow, o, out) {
+    const k = 2, key = [str, Math.round(size), Math.round(ow), o.font || FONT, o.weight || '', out].join('|');
+    if (key in holeCache) return holeCache[key];
+    const pad = Math.ceil(ow), w = Math.ceil((measure(c0, str, size, o.font, o.weight) + pad * 2) * k), h = Math.ceil((size * 1.6 + pad * 2) * k);
+    const a = document.createElement('canvas'); a.width = w; a.height = h;
+    const g = a.getContext('2d', { willReadFrequently: true });
+    g.scale(k, k); g.font = (o.weight ? o.weight + ' ' : '') + size + 'px ' + (o.font || FONT);
+    g.textAlign = 'center'; g.textBaseline = o.base || 'middle'; g.lineJoin = 'round'; g.miterLimit = 2;
+    const cx = w / k / 2, cy = h / k / 2;
+    g.lineWidth = ow; g.strokeStyle = '#000'; g.fillStyle = '#000'; g.strokeText(str, cx, cy); g.fillText(str, cx, cy);
+    const img = g.getImageData(0, 0, w, h), d = img.data, seen = new Uint8Array(w * h), stack = [];
+    const solid = (i) => d[i * 4 + 3] > 40;
+    const push = (i) => { if (!seen[i] && !solid(i)) { seen[i] = 1; stack.push(i); } };
+    for (let x = 0; x < w; x++) { push(x); push((h - 1) * w + x); }
+    for (let y = 0; y < h; y++) { push(y * w); push(y * w + w - 1); }
+    while (stack.length) {
+      const i = stack.pop(), x = i % w;
+      if (x > 0) push(i - 1); if (x < w - 1) push(i + 1); if (i >= w) push(i - w); if (i < w * (h - 1)) push(i + w);
+    }
+    let any = false;
+    for (let i = 0; i < w * h; i++) {
+      if (!seen[i] && !solid(i)) { d[i * 4 + 3] = 255; any = true; } else d[i * 4 + 3] = 0;
+    }
+    let res = null;
+    if (any) {
+      // grow the mask by a pixel so there is no bright seam where it meets the outline
+      g.putImageData(img, 0, 0); g.globalCompositeOperation = 'source-over';
+      const b = document.createElement('canvas'); b.width = w; b.height = h; const bg = b.getContext('2d');
+      for (const [dx, dy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) bg.drawImage(a, dx, dy);
+      bg.globalCompositeOperation = 'source-in'; bg.fillStyle = out; bg.fillRect(0, 0, w, h);
+      res = { cv: b, k, ox: w / k / 2, oy: h / k / 2 };
+    }
+    return (holeCache[key] = res);
+  }
+  const c0 = document.createElement('canvas').getContext('2d');
   function jaText(c, str, x, y, size, fill, o) {          // plain Japanese text (no outline unless asked)
     o = Object.assign({ font: JA, weight: 'bold', out: null }, o || {});
     text(c, str, x, y, size, fill, o);

@@ -197,7 +197,7 @@
         const col = LOGO_COL[ci % LOGO_COL.length];
         c.save(); c.translate(x + widths[i] / 2, ly + by + wob); c.rotate(rot);
         const g = c.createLinearGradient(0, -size * .5, 0, size * .5); g.addColorStop(0, mix(col, '#ffffff', .45)); g.addColorStop(.55, col); g.addColorStop(1, mix(col, C.out, .25));
-        text(c, ch, 0, 0, size, g, { sh: size * .07, ow: size * .24 });
+        text(c, ch, 0, 0, size, g, { sh: size * .07, ow: size * .24, solid: true });
         c.restore();
         x += widths[i]; ci++;
       });
