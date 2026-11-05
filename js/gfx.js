@@ -129,6 +129,15 @@
       c.beginPath(); c.moveTo(s * .09, -s * .38); c.quadraticCurveTo(s * .42, -s * .3, s * .3, -s * .02); c.lineTo(s * .09, -s * .12); c.closePath(); fillStroke(c, '#fff', s);
       if (!on) slash(c, s);
     },
+    qr(c, s) {                                      // little QR code: three corner squares and a few dots
+      rr(c, -s * .42, -s * .42, s * .84, s * .84, s * .1); fillStroke(c, '#fff', s);
+      c.fillStyle = C.out;
+      [[-1, -1], [1, -1], [-1, 1]].forEach(([dx, dy]) => {
+        const x = dx * s * .2 - s * .13, y = dy * s * .2 - s * .13;
+        c.fillRect(x, y, s * .26, s * .26); c.fillStyle = '#fff'; c.fillRect(x + s * .055, y + s * .055, s * .15, s * .15); c.fillStyle = C.out; c.fillRect(x + s * .095, y + s * .095, s * .07, s * .07);
+      });
+      [[.1, .1], [.22, .22], [.1, .26], [.26, .08]].forEach(([x, y]) => c.fillRect(x * s, y * s, s * .08, s * .08));
+    },
     keys(c, s) {
       rr(c, -s * .46, -s * .28, s * .92, s * .56, s * .1); fillStroke(c, '#fff', s);
       for (let r = 0; r < 2; r++) for (let k = 0; k < 4; k++) { c.beginPath(); c.rect(-s * .36 + k * s * .19, -s * .17 + r * s * .15, s * .12, s * .09); c.fillStyle = C.skyD; c.fill(); }

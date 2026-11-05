@@ -152,6 +152,8 @@
   function starRow(cx, cy, R, n, total) {
     for (let i = 0; i < 3; i++) star(c, cx + (i - 1) * R * 2.3, cy - (i === 1 ? R * .25 : 0), R, { empty: i >= n, rot: (i - 1) * .12 });
   }
+  // QR code button: opens the 「スキャンして あそぼう！」 window (js/qr.js)
+  function qrBtn(x, y, d) { if (window.QRPLAY) roundBtn('t:qr', x, y, d, C.grass, C.grassD, (cc, px, py) => icon(cc, 'qr', px, py, d * .66), () => { SFX.click(); ptr.down = false; QRPLAY.open(); }); }
   function toggles(rightX, y, d, withKeys) {
     const gap = 8 * u; let x = rightX - d / 2;
     if (withKeys) { roundBtn('t:keys', x, y, d, prefs.keypad ? C.sky : C.gray, prefs.keypad ? C.skyD : '#9d9382', (cc, px, py) => icon(cc, 'keys', px, py, d * .72), () => { prefs.keypad = !prefs.keypad; LS.set('keypad', prefs.keypad); SFX.click(); }); x -= d + gap; }
@@ -222,6 +224,7 @@
 
     toggles(W - 12 * u, 32 * u, 46 * u, false);
     roundBtn('t:how', W - 12 * u - 3 * (46 + 8) * u + 23 * u, 32 * u, 46 * u, C.ora, C.oraD, (cc, x, y, d) => icon(cc, 'question', x, y, d * .7), () => { SFX.click(); overlay = 'how'; ts2 = now; howAfter = null; });
+    qrBtn(W - 12 * u - 4 * (46 + 8) * u + 23 * u, 32 * u, 46 * u);
   }
   function startFromTitle() {
     const done = () => go('select', ptr.x, ptr.y);
@@ -245,6 +248,7 @@
     const pad = 14 * u;
     roundBtn('home', pad + 24 * u, pad + 28 * u, 50 * u, C.tom, C.tomD, (cc, x, y, d) => icon(cc, 'home', x, y, d * .72), () => { SFX.click(); go('title', ptr.x, ptr.y); });
     toggles(W - pad, pad + 28 * u, 44 * u, false);
+    qrBtn(W - pad - 2 * (44 + 8) * u - 22 * u, pad + 28 * u, 44 * u);
 
     // tabs
     const tabs = DATA.groups.filter((g) => g.id !== 'holidays' || levels.some((l) => l.group === 'holidays'));
