@@ -22,7 +22,7 @@ window.HL_DATA = {
    "id": "general-1",
    "group": "general",
    "title": "Countryside",
-   "ja": "田舎",
+   "ja": "いなか",
    "word": null,
    "image": "img/general-1.webp",
    "thumb": "img/thumbs/general-1.webp",

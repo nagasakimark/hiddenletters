@@ -312,8 +312,8 @@
     c.restore(); rr(c, ix, iy, iw, ih, 4 * u); c.lineWidth = 2.5 * u; c.strokeStyle = C.out; c.stroke();
     // caption
     const capY = iy + ih + capH / 2 + 2 * u;
-    text(c, l.title, ix + 2 * u, capY - (l.ja ? 6 * u : 0), Math.min(21 * u, iw / Math.max(6, l.title.length) * 1.9), C.out, { align: 'left', out: null });
-    if (l.ja) jaText(c, l.ja, ix + 2 * u, capY + 13 * u, 12 * u, '#8a7348', { align: 'left' });
+    text(c, l.title, ix + 2 * u, capY - (l.ja ? 8 * u : 0), Math.min(21 * u, iw / Math.max(6, l.title.length) * 1.9), C.out, { align: 'left', out: null });
+    if (l.ja) jaText(c, l.ja, ix + 2 * u, capY + 10 * u, 12 * u, '#8a7348', { align: 'left' });
     const pr = progress[l.id];
     if (pr) for (let i = 0; i < 3; i++) star(c, w / 2 - m - 13 * u - (2 - i) * 24 * u + 24 * u * 0, capY + 1 * u, 9 * u, { empty: i >= pr.stars });
     // tape
@@ -843,7 +843,7 @@
 
   function drawHow() {
     drawDim(.55 * clamp((now - ts2) / 200, 0, 1));
-    const t = (now - ts2) / 1000, cw = Math.min(W * .94, 780 * u), chh = Math.min(H * .94, portrait ? 560 * u : 400 * u), cx = W / 2, cy = H / 2;
+    const t = (now - ts2) / 1000, cw = Math.min(W * .94, 780 * u), chh = Math.min(H * .94, portrait ? 600 * u : 440 * u), cx = W / 2, cy = H / 2;
     const k = ease.outBack(clamp(t * 2.5, 0, 1));
     c.save(); c.translate(cx, cy); c.scale(k, k);
     c.fillStyle = 'rgba(74,42,20,.35)'; rr(c, -cw / 2 + 4 * u, -chh / 2 + 10 * u, cw, chh, 26 * u); c.fill();
@@ -854,7 +854,7 @@
     const colW = portrait ? cw - 40 * u : (cw - 60 * u) / 2, ph = portrait ? 140 * u : 170 * u;
     const steps = [
       { n: 1, en: 'Tap it!', ja: 'もじを みつけたら タップ！' },
-      { n: 2, en: 'Press the key!', ja: 'おなじ もじの キーを おそう！' }
+      { n: 2, en: 'Press the key!', ja: 'おなじ もじの キーを おしてね！' }
     ];
     steps.forEach((s, i) => {
       const px = portrait ? 0 : (i - .5) * (colW + 20 * u), py = portrait ? -chh / 2 + 70 * u + i * 215 * u + ph / 2 : -chh / 2 + 40 * u + ph / 2 + 18 * u;
@@ -885,6 +885,15 @@
       jaText(c, s.ja, -colW / 2 + 42 * u, 20 * u, 14 * u, '#8a7348', { align: 'left' });
       c.restore();
     });
+    // extra tips in the space between the steps and the OK button
+    {
+      const lastPy = portrait ? -chh / 2 + 70 * u + 215 * u + ph / 2 : -chh / 2 + 40 * u + ph / 2 + 18 * u;
+      const top = lastPy + ph / 2 + 50 * u, bottom = chh / 2 - 72 * u, ty = (top + bottom) / 2;
+      if (bottom - top > 40 * u) {
+        jaText(c, 'まちがいが おおいと、えが こおっちゃうよ。ゆっくり さがそう！', 0, ty - 11 * u, 15 * u, C.out, {});
+        jaText(c, 'こまったら でんきゅうの ヒントを つかおう。', 0, ty + 12 * u, 15 * u, '#8a7348', {});
+      }
+    }
     c.restore();
     if (k >= 1) {
       const bw = 150 * u, bh = 54 * u;
