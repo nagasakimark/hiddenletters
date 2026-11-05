@@ -1,88 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>Hidden Letters</title>
-<link rel="stylesheet" href="css/style.css">
+<style>
+  @font-face{font-family:"Lilita One";src:url(fonts/lilita-one-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:block;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+  @font-face{font-family:"Lilita One";src:url(fonts/lilita-one-latin-ext-400-normal.woff2) format("woff2");font-weight:400;font-display:block;unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF}
+  html,body{margin:0;height:100%;overflow:hidden;background:#7fd6ff;overscroll-behavior:none}
+  #cv{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:none;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+  /* a font is only fetched once something uses it, so keep a hidden sample around */
+  #fontprime{position:absolute;left:-99px;top:-99px;font-family:"Lilita One";opacity:0}
+</style>
 </head>
 <body>
-<div id="app">
-
-  <!-- ============ MENU ============ -->
-  <section id="menu" class="screen">
-    <header class="menu-head">
-      <div>
-        <h1>Hidden Letters</h1>
-        <p class="ja">かくれた もじを さがそう！</p>
-      </div>
-      <div class="togs">
-        <button class="tog" data-k="sound" title="Sound">🔊</button>
-        <button class="tog" data-k="voice" title="Say the letters out loud">🗣️</button>
-      </div>
-    </header>
-
-    <div class="howto">
-      <div class="step"><b>1</b><span>Find a hidden letter and <em>tap</em> it. <small>もじを みつけて タップ！</small></span></div>
-      <div class="step"><b>2</b><span>Press the <em>same letter</em> on your keyboard. <small>おなじ キーを おそう！</small></span></div>
-    </div>
-
-    <div id="menu-groups"></div>
-  </section>
-
-  <!-- ============ PLAY ============ -->
-  <section id="play" class="screen hidden">
-    <header class="hud">
-      <button id="back" class="btn small">◀ Menu</button>
-      <div id="lvtitle" class="lvtitle"></div>
-      <div id="time" class="time">0:00</div>
-      <div class="togs">
-        <button class="tog" data-k="sound" title="Sound">🔊</button>
-        <button class="tog" data-k="voice" title="Say the letters out loud">🗣️</button>
-        <button class="tog" data-k="keypad" title="On-screen letters">⌨️</button>
-      </div>
-    </header>
-
-    <div class="board">
-      <div id="stage">
-        <canvas id="cv" aria-label="Picture with hidden letters"></canvas>
-        <div id="lock" class="hidden" aria-live="assertive">
-          <div class="lock-box">
-            <div class="lock-num" id="lock-num">3</div>
-            <div>Slow down and look carefully!</div>
-            <div class="ja">ゆっくり よく みてね</div>
-          </div>
-        </div>
-        <div id="loading">Loading…</div>
-      </div>
-
-      <aside id="panel">
-        <div id="goal"></div>
-        <div id="msg" role="status" aria-live="polite"></div>
-        <div class="row">
-          <button id="hint" class="btn small yellow">💡 Hint</button>
-        </div>
-        <div id="keypad" class="hidden"></div>
-      </aside>
-    </div>
-
-    <div id="win" class="hidden">
-      <div class="win-card">
-        <div class="win-title" id="win-title"></div>
-        <div class="win-word" id="win-word"></div>
-        <div class="stars" id="win-stars"></div>
-        <div class="win-stats" id="win-stats"></div>
-        <div class="win-btns">
-          <button id="win-next" class="btn">Next ▶</button>
-          <button id="win-again" class="btn blue">↺ Again</button>
-          <button id="win-menu" class="btn ghost">Menu</button>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
+<canvas id="cv" aria-label="Hidden Letters game"></canvas>
+<span id="fontprime">Aa</span>
 <script src="data/levels.js"></script>
+<script src="js/gfx.js"></script>
+<script src="js/sfx.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>

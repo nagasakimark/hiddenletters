@@ -2,7 +2,7 @@
 
 Students find letters hidden in pictures. **Tap** the letter, then **press that letter's key** to prove they know what it is.
 
-Plain HTML5 canvas, no build step, no dependencies. Open `index.html` or serve the folder (GitHub Pages works).
+Plain HTML5 canvas, no build step, no dependencies. Everything (menus too) is drawn on one canvas in `js/game.js`; `js/gfx.js` is the drawing kit (buttons, text, mascot Lenny), `js/sfx.js` makes all sounds and the background music in code (no audio files). Font: Lilita One (OFL, `fonts/`). Sound and music can be toggled on every screen; there is no spoken voice. Open `index.html` or serve the folder (GitHub Pages works).
 Direct links: `…/#january`, `…/#general-4` (or `?level=january`).
 
 ## Levels
