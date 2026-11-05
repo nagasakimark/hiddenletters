@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hidden Letters</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ MENU ============ -->
+  <section id="menu" class="screen">
+    <header class="menu-head">
+      <div>
+        <h1>Hidden Letters</h1>
+        <p class="ja">かくれた もじを さがそう！</p>
+      </div>
+      <div class="togs">
+        <button class="tog" data-k="sound" title="Sound">🔊</button>
+        <button class="tog" data-k="voice" title="Say the letters out loud">🗣️</button>
+      </div>
+    </header>
+
+    <div class="howto">
+      <div class="step"><b>1</b><span>Find a hidden letter and <em>tap</em> it. <small>もじを みつけて タップ！</small></span></div>
+      <div class="step"><b>2</b><span>Press the <em>same letter</em> on your keyboard. <small>おなじ キーを おそう！</small></span></div>
+    </div>
+
+    <div id="menu-groups"></div>
+  </section>
+
+  <!-- ============ PLAY ============ -->
+  <section id="play" class="screen hidden">
+    <header class="hud">
+      <button id="back" class="btn small">◀ Menu</button>
+      <div id="lvtitle" class="lvtitle"></div>
+      <div id="time" class="time">0:00</div>
+      <div class="togs">
+        <button class="tog" data-k="sound" title="Sound">🔊</button>
+        <button class="tog" data-k="voice" title="Say the letters out loud">🗣️</button>
+        <button class="tog" data-k="keypad" title="On-screen letters">⌨️</button>
+      </div>
+    </header>
+
+    <div class="board">
+      <div id="stage">
+        <canvas id="cv" aria-label="Picture with hidden letters"></canvas>
+        <div id="lock" class="hidden" aria-live="assertive">
+          <div class="lock-box">
+            <div class="lock-num" id="lock-num">3</div>
+            <div>Slow down and look carefully!</div>
+            <div class="ja">ゆっくり よく みてね</div>
+          </div>
+        </div>
+        <div id="loading">Loading…</div>
+      </div>
+
+      <aside id="panel">
+        <div id="goal"></div>
+        <div id="msg" role="status" aria-live="polite"></div>
+        <div class="row">
+          <button id="hint" class="btn small yellow">💡 Hint</button>
+        </div>
+        <div id="keypad" class="hidden"></div>
+      </aside>
+    </div>
+
+    <div id="win" class="hidden">
+      <div class="win-card">
+        <div class="win-title" id="win-title"></div>
+        <div class="win-word" id="win-word"></div>
+        <div class="stars" id="win-stars"></div>
+        <div class="win-stats" id="win-stats"></div>
+        <div class="win-btns">
+          <button id="win-next" class="btn">Next ▶</button>
+          <button id="win-again" class="btn blue">↺ Again</button>
+          <button id="win-menu" class="btn ghost">Menu</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="data/levels.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+[
+  {"id": "calendar", "near": [0.3154, 0.4717], "was": "p", "letter": "d",
+   "why": "Calendar needs a D; the awning edge there is a tilted D (p and d sit next to each other on the keyboard)."},
+  {"id": "january", "near": [0.2834, 0.7662], "was": "q", "letter": "a",
+   "why": "January needs a second A; the bell on the lion is a tilted a."},
+  {"id": "october", "near": [0.4722, 0.5172], "was": "r", "letter": "e",
+   "why": "October needs an E; the blue letter on the bag is an e (e and r are neighbouring keys)."},
+  {"id": "november", "near": [0.5231, 0.3256], "was": "r", "letter": "e",
+   "why": "November needs a second E; the letter on the building is an e."}
+]
